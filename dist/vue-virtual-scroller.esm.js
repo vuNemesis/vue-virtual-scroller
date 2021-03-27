@@ -190,6 +190,10 @@ var script = {
     ObserveVisibility: ObserveVisibility
   },
   props: _objectSpread2({}, props, {
+    zIndex: {
+      type: Number,
+      default: 0
+    },
     itemSize: {
       type: Number,
       default: null
@@ -232,6 +236,13 @@ var script = {
     };
   },
   computed: {
+    itemStyle: function itemStyle() {
+      var zIndex = this.zIndex ? this.zIndex : 'initial';
+      return this.ready ? {
+        transform: "translate".concat(this.direction === 'vertical' ? 'Y' : 'X', "(").concat(this.view.position, "px)"),
+        'z-index': zIndex
+      } : null;
+    },
     sizes: function sizes() {
       if (this.itemSize === null) {
         var sizes = {
@@ -842,16 +853,7 @@ var __vue_render__ = function() {
               key: view.nr.id,
               staticClass: "vue-recycle-scroller__item-view",
               class: { hover: _vm.hoverKey === view.nr.key },
-              style: _vm.ready
-                ? {
-                    transform:
-                      "translate" +
-                      (_vm.direction === "vertical" ? "Y" : "X") +
-                      "(" +
-                      view.position +
-                      "px)"
-                  }
-                : null,
+              style: _vm.itemStyle,
               on: {
                 mouseenter: function($event) {
                   _vm.hoverKey = view.nr.key;
