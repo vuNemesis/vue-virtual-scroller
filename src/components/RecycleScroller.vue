@@ -79,7 +79,7 @@ export default {
 
     zIndex: {
       type: Number,
-      default: 0
+      default: 0,
     },
 
     itemSize: {
