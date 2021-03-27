@@ -26,7 +26,12 @@
       <div
         v-for="view of pool"
         :key="view.nr.id"
-        :style="itemStyle"
+        :style="ready ? {
+          transform: `translate${direction === 'vertical' ? 'Y' : 'X'}(${view.position}px)`,
+          'z-index': zIndex ? zIndex : 'initial',
+        } : {
+          'z-index': zIndex ? zIndex : 'initial',
+        }"
         class="vue-recycle-scroller__item-view"
         :class="{ hover: hoverKey === view.nr.key }"
         @mouseenter="hoverKey = view.nr.key"
@@ -133,13 +138,6 @@ export default {
   },
 
   computed: {
-    itemStyle () {
-      const zIndex = this.zIndex ? this.zIndex : 'initial'
-      return this.ready ? {
-        transform: `translate${this.direction === 'vertical' ? 'Y' : 'X'}(${this.view.position}px)`,
-        'z-index': zIndex,
-      } : null
-    },
     sizes () {
       if (this.itemSize === null) {
         const sizes = {
